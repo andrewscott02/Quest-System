@@ -9,6 +9,7 @@
 * Forced main camera to use deferred rendering and to not use MSAA.  (For antialiasing, add the Post Processing Stack v2 from The Package Manager).
 * Disabled resolution / quality dialog from start up and set the resolution and quality defaults to the best defaults available (Default resolution is native resolution.  Display mode is Fullscreen borderless window.  All quality settings use deffered rendering, but are otherwise left as default).
 * Changed the colour space from 'Gamma' to 'Linear'.  Linear colour space provides a better range of colours.
+* Disabled Mixed Lighting and Autogenerate lighting.  Only realtime global illumination is used by default.  If you want to bake static lightmaps, enable mixed lighting in the lighting settings.
 * Changed player settings to force a single instance, run in background and be visible in the background.  These are generally the best all round default settings for the player.
 
 
