@@ -4,7 +4,8 @@ This repository has been pre-configured with a .gitignore and .gitattributes fil
 
 This project was created for Unity 2018.4.2.f1.
 
-The project has been created with a barebones folder structure and sample assets.  The settings have been optimized for best quality without adding any additional packages to the project.
+The project has been created with a barebones folder structure and sample assets.  The settings have been optimized for best 3D quality without adding any additional packages to the project.
+For 2D projects, go to Edit -> Project Settings -> Editor and set the "Default Behaviour Mode" to 2D.  Do this at the start so that imported assets are optimized automatically.
 
 Please fork this repository, then rename and clone it to begin working on your project. 
 
