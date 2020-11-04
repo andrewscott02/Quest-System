@@ -1,5 +1,6 @@
 ### Blank Unity Project  - Changelog - June 2019 ### 
 
+* Fixed Some LFS issues
 * Updated project to use Unity 2019.4.1.f1.
 * Updated project to use Unity 2018.4.2.f1.
 * Removed out-of-date git plug-in.  If you want to use this feature, add it from The Asset Store.
