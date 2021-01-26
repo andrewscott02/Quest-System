@@ -1,5 +1,6 @@
-### Blank Unity Project  - Changelog - June 2019 ### 
+### Blank Unity Project  - Changelog - January 2021 ### 
 
+* Updated project to use Unity 2019.4.17
 * Fixed Some LFS issues
 * Updated project to use Unity 2019.4.1.f1.
 * Updated project to use Unity 2018.4.2.f1.

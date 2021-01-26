@@ -2,7 +2,7 @@
 
 This repository has been pre-configured with a .gitignore and .gitattributes file specific to Unity projects using git-lfs. 
 
-This project was created for Unity 2019.4.1.f1.
+This project was created for Unity 2019.4.17
 
 The project has been created with a barebones folder structure and sample assets.  The settings have been optimized for best 3D quality without adding any additional packages to the project.
 For 2D projects, go to Edit -> Project Settings -> Editor and set the "Default Behaviour Mode" to 2D.  Do this at the start so that imported assets are optimized automatically.
