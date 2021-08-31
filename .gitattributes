@@ -8,14 +8,16 @@
 *.anim merge=unityyamlmerge eol=lf
 *.unity merge=unityyamlmerge eol=lf
 *.prefab merge=unityyamlmerge eol=lf
-*.physicMaterial2D merge=unityyamlmerge eol=lf
+*.physicsMaterial2D merge=unityyamlmerge eol=lf
 *.physicMaterial merge=unityyamlmerge eol=lf
-# https://gist.github.com/nemotoo/b8a1c3a0f1225bb9231979f389fd4f3f (see comments)
-*.asset filter=lfs diff=lfs merge=lfs -text
-
 *.meta merge=unityyamlmerge eol=lf
 *.controller merge=unityyamlmerge eol=lf
-
+*.meta merge=unityyamlmerge eol=lf
+*.asset merge=unityyamlmerge eol=lf
+Assets/**/Terrains/**/*.asset filter=lfs diff=lfs merge=lfs -text
+Assets/**/Terrain/**/*.asset filter=lfs diff=lfs merge=lfs -text
+Assets/**/LightingData.asset filter=lfs diff=lfs merge=lfs -text
+Assets/**/NavMesh.asset filter=lfs diff=lfs merge=lfs -text
 
 # Unity LFS
 *.cubemap       filter=lfs diff=lfs merge=lfs -text
@@ -99,7 +101,6 @@
 # Executable/Installer
 *.apk  filter=lfs diff=lfs merge=lfs -text
 *.exe  filter=lfs diff=lfs merge=lfs -text
-
 
 # Documents
 *.pdf  filter=lfs diff=lfs merge=lfs -text
