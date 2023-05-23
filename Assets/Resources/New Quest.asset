@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6cadeb54ad3fa44803490218cc911d, type: 3}
+  m_Name: New Quest
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - baseNodeGUID: a0226528-26fd-480f-b670-1d72f8a9cf81
+    portName: Next
+    targetNodeGUID: 9f15bdcf-c5ba-48b3-a6b1-30985a736529
+  - baseNodeGUID: 9f15bdcf-c5ba-48b3-a6b1-30985a736529
+    portName: Waguan
+    targetNodeGUID: 40754736-919b-42c3-a73f-189499cdfc24
+  - baseNodeGUID: 9f15bdcf-c5ba-48b3-a6b1-30985a736529
+    portName: Hello
+    targetNodeGUID: 357ca960-ab37-4dba-b3f3-fdc4a5e08d14
+  questNodeData:
+  - GUID: 9f15bdcf-c5ba-48b3-a6b1-30985a736529
+    questText: Quest Node
+    position: {x: 288, y: 152}
+  - GUID: 40754736-919b-42c3-a73f-189499cdfc24
+    questText: Quest Node
+    position: {x: 693, y: 75}
+  - GUID: 357ca960-ab37-4dba-b3f3-fdc4a5e08d14
+    questText: Quest Node
+    position: {x: 543, y: 291}

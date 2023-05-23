@@ -12,6 +12,7 @@ using UnityEditor.Experimental.GraphView;
 public class QuestGraph : EditorWindow
 {
     private QuestGraphView _graphView;
+    private string _fileName = "New Quest";
 
     [MenuItem("Graph/Quest Graph")]
     public static void OpenQuestGraphWindow()
@@ -46,15 +47,34 @@ public class QuestGraph : EditorWindow
     {
         var toolbar = new Toolbar();
 
-        var nodeCreateButton = new Button(clickEvent: () =>
-        {
-            _graphView.CreateNode("Quest Node");
-        });
+        var fileNameTextField = new TextField(label: "File Name:");
+        fileNameTextField.SetValueWithoutNotify(_fileName);
+        fileNameTextField.MarkDirtyRepaint();
+        fileNameTextField.RegisterValueChangedCallback(evt => _fileName = evt.newValue);
+        toolbar.Add(fileNameTextField);
 
+        toolbar.Add(child: new Button(clickEvent: () => RequestDataOperation(true)) {text = "Save Data" });
+        toolbar.Add(child: new Button(clickEvent: () => RequestDataOperation(false)) { text = "Load Data" });
+
+        var nodeCreateButton = new Button(clickEvent: () => { _graphView.CreateNode("Quest Node"); });
         nodeCreateButton.text = "Create Node";
-
         toolbar.Add(nodeCreateButton);
 
         rootVisualElement.Add(toolbar);
+    }
+
+    private void RequestDataOperation(bool save)
+    {
+        if (string.IsNullOrEmpty(_fileName))
+        {
+            EditorUtility.DisplayDialog("Invalid file name!", "Please enter a valie file name.", ok: "OK");
+            return;
+        }
+
+        var saveUtility = GraphSaveUtility.GetInstance(_graphView);
+        if (save)
+            saveUtility.SaveGraph(_fileName);
+        else
+            saveUtility.LoadGraph(_fileName);
     }
 }

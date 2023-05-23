@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -11,13 +12,20 @@ using UnityEditor.Experimental.GraphView;
 
 public class QuestGraphView : GraphView
 {
-    private readonly Vector2 defaultNodeSize = new Vector2(150, 200);
+    public readonly Vector2 defaultNodeSize = new Vector2(150, 200);
 
     public QuestGraphView()
     {
+        styleSheets.Add(Resources.Load<StyleSheet>(path: "QuestStyleSheet"));
+        SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+
         this.AddManipulator(new ContentDragger());
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
+
+        var grid = new GridBackground();
+        Insert(0, grid);
+        grid.StretchToParentSize();
 
         AddElement(GenerateEntryPointNode());
     }
@@ -84,6 +92,8 @@ public class QuestGraphView : GraphView
         questNode.inputContainer.Add(inputPort);
 
         var button = new Button(clickEvent: () => { AddChoicePort(questNode); });
+        button.text = "New Output";
+        questNode.titleContainer.Add(button);
 
         questNode.RefreshExpandedState();
         questNode.RefreshPorts();
@@ -92,15 +102,51 @@ public class QuestGraphView : GraphView
         return questNode;
     }
 
-    private void AddChoicePort(QuestGraphNode questNode)
+    public  void AddChoicePort(QuestGraphNode questNode, string overriddenPortName = "")
     {
         var generatedPort = GeneratePort(questNode, Direction.Output);
 
-        var outputPortCount = questNode.outputContainer.Query("connector").ToList().Count;
-        generatedPort.portName = $"Choice {outputPortCount}";
+        var oldLabel = generatedPort.contentContainer.Q<Label>("type");
+        generatedPort.contentContainer.Remove(oldLabel);
 
+        var outputPortCount = questNode.outputContainer.Query("connector").ToList().Count;
+
+        var choicePortName = string.IsNullOrEmpty(overriddenPortName) ? 
+            $"Choice {outputPortCount + 1}" : 
+            overriddenPortName;
+
+        var textField = new TextField
+        {
+            name = String.Empty,
+            value = choicePortName
+        };
+
+        textField.RegisterValueChangedCallback(evt => generatedPort.portName = evt.newValue);
+        generatedPort.contentContainer.Add(new Label("  "));
+        generatedPort.contentContainer.Add(textField);
+        var deleteButton = new Button(clickEvent: () => RemovePort(questNode, generatedPort))
+        {
+            text = "X"
+        };
+        generatedPort.contentContainer.Add(deleteButton);
+
+        generatedPort.portName = choicePortName;
         questNode.outputContainer.Add(generatedPort);
         questNode.RefreshExpandedState();
         questNode.RefreshPorts();
+    }
+
+    private void RemovePort(QuestGraphNode questNode, Port generatedPort)
+    {
+        var targetEdge = edges.ToList().Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
+
+        if (!targetEdge.Any()) return;
+        var edge = targetEdge.First();
+        edge.input.Disconnect(edge);
+        RemoveElement(targetEdge.First());
+
+        questNode.outputContainer.Remove(generatedPort);
+        questNode.RefreshPorts();
+        questNode.RefreshExpandedState();
     }
 }
