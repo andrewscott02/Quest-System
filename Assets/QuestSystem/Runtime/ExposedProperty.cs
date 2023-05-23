@@ -11,6 +11,6 @@ using UnityEditor.Experimental.GraphView;
 [Serializable]
 public class ExposedProperty
 {
-    public string propertyName = "New String";
+    public string propertyName = "New Property";
     public string propertyValue = "New Value";
 }

@@ -26,13 +26,28 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
-        if (!_edges.Any()) return;
-
         QuestContainer questContainer = ScriptableObject.CreateInstance<QuestContainer>();
+
+        if (!SaveNodes(questContainer)) return;
+        SaveExposedProperties(questContainer);
+
+        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+        {
+            Debug.Log("No folder, creating one");
+            AssetDatabase.CreateFolder("Assets", "Resources");
+        }
+
+        AssetDatabase.CreateAsset(questContainer, $"Assets/Resources/{fileName}.asset");
+        AssetDatabase.SaveAssets();
+    }
+
+    private bool SaveNodes(QuestContainer questContainer)
+    {
+        if (!_edges.Any()) return false;
 
         Edge[] connectedPorts = _edges.Where(x => x.input.node != null).ToArray();
 
-        for(int i = 0; i < connectedPorts.Length; i++)
+        for (int i = 0; i < connectedPorts.Length; i++)
         {
             QuestGraphNode outputNode = connectedPorts[i].output.node as QuestGraphNode;
             QuestGraphNode inputNode = connectedPorts[i].input.node as QuestGraphNode;
@@ -45,7 +60,7 @@ public class GraphSaveUtility
             });
         }
 
-        foreach(var item in _nodes.Where(node => !node.entryPoint))
+        foreach (var item in _nodes.Where(node => !node.entryPoint))
         {
             questContainer.questNodeData.Add(new QuestNodeData
             {
@@ -55,14 +70,12 @@ public class GraphSaveUtility
             });
         }
 
-        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-        {
-            Debug.Log("no folder, creating one");
-            AssetDatabase.CreateFolder("Assets", "Resources");
-        }
+        return true;
+    }
 
-        AssetDatabase.CreateAsset(questContainer, $"Assets/Resources/{fileName}.asset");
-        AssetDatabase.SaveAssets();
+    private void SaveExposedProperties(QuestContainer questContainer)
+    {
+        questContainer.exposedProperties.AddRange(_targetGraphView.exposedProperties);
     }
 
     public void LoadGraph(string fileName)
@@ -78,6 +91,17 @@ public class GraphSaveUtility
         ClearGraph();
         CreateNodes();
         ConnectNodes();
+        LoadExposedProperties();
+    }
+
+    private void LoadExposedProperties()
+    {
+        _targetGraphView.ClearBlackBoardProperties();
+
+        foreach (var item in _containerCache.exposedProperties)
+        {
+            _targetGraphView.AddPropertyToBlackBoard(item);
+        }
     }
 
     private void ClearGraph()

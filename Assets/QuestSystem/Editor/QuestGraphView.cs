@@ -178,6 +178,12 @@ public class QuestGraphView : GraphView
         nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _searchWindow);
     }
 
+    public void ClearBlackBoardProperties()
+    {
+        exposedProperties.Clear();
+        blackBoard.Clear();
+    }
+
     public void AddPropertyToBlackBoard(ExposedProperty exposedProperty)
     {
         var localPropertyName = exposedProperty.propertyName;
@@ -187,8 +193,8 @@ public class QuestGraphView : GraphView
 
 
         var property = new ExposedProperty();
-        property.propertyName = exposedProperty.propertyName;
-        property.propertyValue = exposedProperty.propertyValue;
+        property.propertyName = localPropertyName;
+        property.propertyValue = localPropertyValue;
         exposedProperties.Add(property);
 
         var container = new VisualElement();
@@ -197,7 +203,7 @@ public class QuestGraphView : GraphView
 
         var propertyValueTextField = new TextField("Value:")
         {
-            value = property.propertyValue
+            value = localPropertyValue
         };
 
         propertyValueTextField.RegisterValueChangedCallback(evt =>

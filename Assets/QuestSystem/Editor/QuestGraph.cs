@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -94,6 +95,20 @@ public class QuestGraph : EditorWindow
         blackBoard.addItemRequested = _blackboard =>
         {
             _graphView.AddPropertyToBlackBoard(new ExposedProperty());
+        };
+
+        blackBoard.editTextRequested = (blackBoard1, element, newValue) =>
+        {
+            var oldPropertyName = ((BlackboardField)element).text;
+            if (_graphView.exposedProperties.Any(x => x.propertyName == newValue))
+            {
+                EditorUtility.DisplayDialog("Error", "This property name already exists, please choose another one!", "OK");
+                return;
+            }
+
+            var propertyIndex = _graphView.exposedProperties.FindIndex(x => x.propertyName == oldPropertyName);
+            _graphView.exposedProperties[propertyIndex].propertyName = newValue;
+            ((BlackboardField)element).text = newValue;
         };
 
         blackBoard.SetPosition(new Rect(this.position.width - 210, 30, 200, 300));

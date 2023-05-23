@@ -22,13 +22,33 @@ MonoBehaviour:
   - baseNodeGUID: 9f15bdcf-c5ba-48b3-a6b1-30985a736529
     portName: Hello
     targetNodeGUID: 357ca960-ab37-4dba-b3f3-fdc4a5e08d14
+  - baseNodeGUID: 357ca960-ab37-4dba-b3f3-fdc4a5e08d14
+    portName: What's on your mind?
+    targetNodeGUID: 7282c4cd-3c91-4b33-bb63-670edea5b6fb
+  - baseNodeGUID: 7282c4cd-3c91-4b33-bb63-670edea5b6fb
+    portName: K Goodbye then
+    targetNodeGUID: 9ee7c411-7f46-43d2-b678-513247bd13bb
+  - baseNodeGUID: 40754736-919b-42c3-a73f-189499cdfc24
+    portName: K Goodbye then
+    targetNodeGUID: 9ee7c411-7f46-43d2-b678-513247bd13bb
   questNodeData:
   - GUID: 9f15bdcf-c5ba-48b3-a6b1-30985a736529
     questText: Hi there
     position: {x: 288, y: 152}
-  - GUID: 40754736-919b-42c3-a73f-189499cdfc24
-    questText: What's up my man!
-    position: {x: 693, y: 75}
   - GUID: 357ca960-ab37-4dba-b3f3-fdc4a5e08d14
     questText: Nice to meet you
     position: {x: 543, y: 291}
+  - GUID: 7282c4cd-3c91-4b33-bb63-670edea5b6fb
+    questText: Not much, hbu
+    position: {x: 904, y: 234}
+  - GUID: 9ee7c411-7f46-43d2-b678-513247bd13bb
+    questText: Quest Node
+    position: {x: 1395, y: 101}
+  - GUID: 40754736-919b-42c3-a73f-189499cdfc24
+    questText: What's up my man!
+    position: {x: 693, y: 75}
+  exposedProperties:
+  - propertyName: Quest Name
+    propertyValue: Arrival at Thoth
+  - propertyName: Quest Progress
+    propertyValue: 02
