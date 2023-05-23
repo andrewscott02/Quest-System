@@ -14,7 +14,9 @@ public class QuestGraphView : GraphView
 {
     public readonly Vector2 defaultNodeSize = new Vector2(150, 200);
 
-    public QuestGraphView()
+    private NodeSearchWindow _searchWindow;
+
+    public QuestGraphView(EditorWindow editorWindow)
     {
         styleSheets.Add(Resources.Load<StyleSheet>(path: "QuestStyleSheet"));
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
@@ -28,6 +30,7 @@ public class QuestGraphView : GraphView
         grid.StretchToParentSize();
 
         AddElement(GenerateEntryPointNode());
+        AddSearchWindow(editorWindow);
     }
 
     public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -75,12 +78,12 @@ public class QuestGraphView : GraphView
         return node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float)); // TODO: Change specific types later
     }
 
-    public void CreateNode(string nodeName)
+    public void CreateNode(string nodeName, Vector2 mousePosition)
     {
-        AddElement(CreateQuestNode(nodeName));
+        AddElement(CreateQuestNode(nodeName, mousePosition));
     }
 
-    public QuestGraphNode CreateQuestNode(string nodeName)
+    public QuestGraphNode CreateQuestNode(string nodeName, Vector2 mousePosition)
     {
         var questNode = new QuestGraphNode
         {
@@ -110,7 +113,7 @@ public class QuestGraphView : GraphView
 
         questNode.RefreshExpandedState();
         questNode.RefreshPorts();
-        questNode.SetPosition(new Rect(Vector2.zero, defaultNodeSize));
+        questNode.SetPosition(new Rect(mousePosition, defaultNodeSize));
 
         return questNode;
     }
@@ -161,5 +164,12 @@ public class QuestGraphView : GraphView
         questNode.outputContainer.Remove(generatedPort);
         questNode.RefreshPorts();
         questNode.RefreshExpandedState();
+    }
+
+    void AddSearchWindow(EditorWindow editorWindow)
+    {
+        _searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+        _searchWindow.Init(this, editorWindow);
+        nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _searchWindow);
     }
 }

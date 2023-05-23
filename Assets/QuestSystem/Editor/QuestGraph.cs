@@ -35,7 +35,7 @@ public class QuestGraph : EditorWindow
 
     private void ConstructGraphView()
     {
-        _graphView = new QuestGraphView
+        _graphView = new QuestGraphView(this)
         {
             name = "Quest Graph"
         };
@@ -56,10 +56,6 @@ public class QuestGraph : EditorWindow
 
         toolbar.Add(child: new Button(clickEvent: () => RequestDataOperation(true)) {text = "Save Data" });
         toolbar.Add(child: new Button(clickEvent: () => RequestDataOperation(false)) { text = "Load Data" });
-
-        var nodeCreateButton = new Button(clickEvent: () => { _graphView.CreateNode("Quest Node"); });
-        nodeCreateButton.text = "Create Node";
-        toolbar.Add(nodeCreateButton);
 
         rootVisualElement.Add(toolbar);
     }

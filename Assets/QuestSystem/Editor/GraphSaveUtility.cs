@@ -99,7 +99,7 @@ public class GraphSaveUtility
     {
         foreach (var item in _containerCache.questNodeData)
         {
-            QuestGraphNode tempNode = _targetGraphView.CreateQuestNode(item.questText);
+            QuestGraphNode tempNode = _targetGraphView.CreateQuestNode(item.questText, Vector2.zero);
             tempNode.GUID = item.GUID;
             _targetGraphView.AddElement(tempNode);
 
