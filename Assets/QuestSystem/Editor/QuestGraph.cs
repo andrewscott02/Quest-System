@@ -8,6 +8,9 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 
 //https://www.youtube.com/playlist?list=PLF3U0rzFKlTGzz-AUFacf9_OKiW_hGYIR
+//https://github.com/merpheus-dev/NodeBasedDialogueSystem/blob/master/com.subtegral.dialoguesystem/Editor/GraphSaveUtility.cs
+
+//https://www.youtube.com/playlist?list=PL0yxB6cCkoWK38XT4stSztcLueJ_kTx5f
 
 public class QuestGraph : EditorWindow
 {
@@ -26,6 +29,7 @@ public class QuestGraph : EditorWindow
         ConstructGraphView();
         GenerateToolbar();
         GenerateMiniMap();
+        GenerateBlackBoard();
     }
 
     private void OnDisable()
@@ -80,5 +84,22 @@ public class QuestGraph : EditorWindow
         var miniMap = new MiniMap { anchored = true};
         miniMap.SetPosition(new Rect(10, 30, 200, 140));
         _graphView.Add(miniMap);
+    }
+
+    private void GenerateBlackBoard()
+    {
+        var blackBoard = new Blackboard(_graphView);
+        blackBoard.Add(new BlackboardSection { title = "Exposed Properties" });
+
+        blackBoard.addItemRequested = _blackboard =>
+        {
+            _graphView.AddPropertyToBlackBoard(new ExposedProperty());
+        };
+
+        blackBoard.SetPosition(new Rect(this.position.width - 210, 30, 200, 300));
+
+        _graphView.blackBoard = blackBoard;
+
+        _graphView.Add(blackBoard);
     }
 }
