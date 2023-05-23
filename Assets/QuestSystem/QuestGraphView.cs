@@ -59,6 +59,9 @@ public class QuestGraphView : GraphView
         generatedPort.portName = "Next";
         node.outputContainer.Add(generatedPort);
 
+        node.capabilities &= ~Capabilities.Movable;
+        node.capabilities &= ~Capabilities.Deletable;
+
         node.RefreshExpandedState();
         node.RefreshPorts();
 
@@ -87,13 +90,23 @@ public class QuestGraphView : GraphView
         };
 
         var inputPort = GeneratePort(questNode, Direction.Input, Port.Capacity.Multi);
-
         inputPort.portName = "Input";
         questNode.inputContainer.Add(inputPort);
+
+        questNode.styleSheets.Add(Resources.Load<StyleSheet>(path: "NodeStyleSheet"));
 
         var button = new Button(clickEvent: () => { AddChoicePort(questNode); });
         button.text = "New Output";
         questNode.titleContainer.Add(button);
+
+        var textField = new TextField(string.Empty);
+        textField.RegisterValueChangedCallback(evt =>
+        {
+            questNode.questText = evt.newValue;
+            questNode.title = evt.newValue;
+        });
+        textField.SetValueWithoutNotify(questNode.title);
+        questNode.mainContainer.Add(textField);
 
         questNode.RefreshExpandedState();
         questNode.RefreshPorts();

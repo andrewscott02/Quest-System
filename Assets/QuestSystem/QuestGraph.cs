@@ -25,6 +25,7 @@ public class QuestGraph : EditorWindow
     {
         ConstructGraphView();
         GenerateToolbar();
+        GenerateMiniMap();
     }
 
     private void OnDisable()
@@ -76,5 +77,12 @@ public class QuestGraph : EditorWindow
             saveUtility.SaveGraph(_fileName);
         else
             saveUtility.LoadGraph(_fileName);
+    }
+
+    private void GenerateMiniMap()
+    {
+        var miniMap = new MiniMap { anchored = true};
+        miniMap.SetPosition(new Rect(10, 30, 200, 140));
+        _graphView.Add(miniMap);
     }
 }

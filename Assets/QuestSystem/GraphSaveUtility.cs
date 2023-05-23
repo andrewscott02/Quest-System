@@ -139,7 +139,6 @@ public class GraphSaveUtility
 
         tempEdge.input.Connect(tempEdge);
         tempEdge.output.Connect(tempEdge);
-
         _targetGraphView.Add(tempEdge);
     }
 }
